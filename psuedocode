@@ -1,0 +1,54 @@
+def verify(program, examples):
+    for (input, output) in examples:
+        if program(input) != output:
+            return false
+    return true
+
+def synthesize(examples):
+    bank = []
+
+    loop:
+        for program in bank:
+            for operation in Operation.enumerate():
+                new_program = operation(program)
+                correct = true
+                for (input, output) in examples:
+                    if program(input) != output:
+                        correct = false
+                        break
+                
+                if correct:
+                    return new_program
+                else:
+                    bank.append(new_program)
+
+def synthesize_with_observational_equivalence_reduction(examples):
+    bank = []
+    map = {}
+
+    loop:
+        for program in bank:
+            for operation in Operation.enumerate():
+                new_program = operation(program)
+
+                correct = true
+                outputs = []
+                for (input, output) in examples:
+                    program_output = program(input)
+                    outputs.append(program(input))
+                    if program_output != output:
+                        correct = false
+                
+                if correct:
+                    return new_program
+                else:
+                    banked_program = map[outputs]
+                    if banked_program != None:
+                        if new_program.size() < banked_program.size():
+                            map[outputs] == new_program
+                            bank[banked_program] = new_program
+                    else:
+                        bank.append(new_program)    
+    
+
+

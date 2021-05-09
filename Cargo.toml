@@ -1,0 +1,9 @@
+[package]
+name = "enumerative_synthesis_with_obe"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+strum = "0.20"
+strum_macros = "0.20"
+csv = "1.1.6"
